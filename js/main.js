@@ -28,21 +28,40 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const MIN_AVATAR_INDEX = 1;
-const MAX_AVATAR_INDEX = 6;
-const MIN_RANGE_LIKES = 15;
-const MAX_RANGE_LIKES = 200;
-const MIN_RANGE_COMMENTS = 1;
-const MAX_RANGE_COMMENTS = 3;
-const PHOTOS_DESCRIPTIONS = 25;
+const DESCRIPTIONS = [
+  'Быть первым – необязательно быть лучшим',
+  'Крутое фото!',
+  'Не падай духом – ушибешься',
+  'Все идет хорошо, только мимо',
+  'Я не подарок, но сюрприз',
+  'Ушел в себя и заблудился',
+];
 
+const AvatarIndex = {
+  MIN: 1,
+  MAX: 6,
+};
+
+const RangeLike = {
+  MIN: 15,
+  MAX: 200,
+};
+
+const RangeComment = {
+  MIN: 1,
+  MAX: 3,
+};
+
+const PHOTOS_COUNT = 25;
+
+//Вспомогательная функция для получения случайного числа
 const getRandomElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
 const createComment = (id) => {
-  const randomAvatarIndex = getRandomInteger(MIN_AVATAR_INDEX, MAX_AVATAR_INDEX);
+  const randomAvatarIndex = getRandomInteger(AvatarIndex.MIN, AvatarIndex.MAX);
   const imgAvatar = `img/avatar-${randomAvatarIndex}.svg`;
   return {
-    id: id,
+    id,
     avatar: imgAvatar,
     message: getRandomElement(MESSAGES),
     name: getRandomElement(NAMES),
@@ -50,13 +69,13 @@ const createComment = (id) => {
 };
 
 const createPhotoDescription = (id) => {
-  const randomLikesNumber = getRandomInteger(MIN_RANGE_LIKES, MAX_RANGE_LIKES);
-  const randomCommentsNumber = getRandomInteger(MIN_RANGE_COMMENTS, MAX_RANGE_COMMENTS);
+  const randomLikesNumber = getRandomInteger(RangeLike.MIN, RangeLike.MAX);
+  const randomCommentsNumber = getRandomInteger(RangeComment.MIN, RangeComment.MAX);
   const commentsList = Array.from({length: randomCommentsNumber}, (_, index) => createComment(index));
   return {
-    id: id,
+    id,
     url: `photos/${id}.jpg`,
-    description: 'Крутое фото!',
+    description: getRandomElement(DESCRIPTIONS),
     likes: randomLikesNumber,
     comments: commentsList,
   };
@@ -69,3 +88,4 @@ const generatePhotos = (count) => {
   }
   return photos;
 };
+(generatePhotos(PHOTOS_COUNT));
