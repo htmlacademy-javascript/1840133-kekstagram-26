@@ -1,3 +1,6 @@
 import {PHOTOS_COUNT, generatePhotos} from './data.js';
+import {createUsersPhotos} from './miniatures.js';
 
-generatePhotos(PHOTOS_COUNT);
+const descriptionPictures = generatePhotos(PHOTOS_COUNT);
+
+createUsersPhotos(descriptionPictures);
