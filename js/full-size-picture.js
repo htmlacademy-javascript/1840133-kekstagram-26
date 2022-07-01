@@ -1,26 +1,20 @@
+import {closePopup, openPopup} from './popup.js';
+
+const AVATAR_WIDTH = 35;
+const AVATAR_HEIGHT = 35;
+
 const createFullSizePicture = (photoDescription) => {
   const bigPictureContainer = document.querySelector('.big-picture');
-  bigPictureContainer.classList.remove('hidden');
-
-  const body = document.querySelector('body');
-  body.classList.add('modal-open');
+  openPopup();
 
   const closePopupButton = bigPictureContainer.querySelector('.big-picture__cancel');
   closePopupButton.addEventListener('click', () => {
-    bigPictureContainer.classList.add('hidden');
-    body.classList.remove('modal-open');
+    closePopup();
   });
 
-  body.addEventListener('keydown', (evt) => {
-    if(evt.key === 'Escape') {
-      bigPictureContainer.classList.add('hidden');
-      body.classList.remove('modal-open');
-    }
-  });
-
+  //Убирает блоки счетчика комментариев и загрузки новых комментариев
   const socialCommentCount = bigPictureContainer.querySelector('.social__comment-count');
   socialCommentCount.classList.add('hidden');
-
   const commentsLoader = bigPictureContainer.querySelector('.comments-loader');
   commentsLoader.classList.add('hidden');
 
@@ -34,19 +28,23 @@ const createFullSizePicture = (photoDescription) => {
   photoDescription.comments.forEach((comment) => {
     const liElement = document.createElement('li');
     liElement.classList.add('social__comment');
+
     const imgElement = document.createElement('img');
     imgElement.classList.add('social__picture');
     imgElement.src = comment.avatar;
     imgElement.alt = comment.name;
-    imgElement.width = 35;
-    imgElement.height = 35;
+    imgElement.width = AVATAR_WIDTH;
+    imgElement.height = AVATAR_HEIGHT;
+
     const pElement = document.createElement('p');
     pElement.classList.add('social__text');
     pElement.textContent = comment.message;
+
     liElement.append(imgElement);
     liElement.append(pElement);
     socialCommentsList.append(liElement);
   });
+
   bigPictureContainer.querySelector('.social__caption').textContent = photoDescription.description;
 };
 
