@@ -4,3 +4,4 @@ import {createUsersPhotos} from './miniatures.js';
 const descriptionPictures = generatePhotos(PHOTOS_COUNT);
 
 createUsersPhotos(descriptionPictures);
+
