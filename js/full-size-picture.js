@@ -1,4 +1,4 @@
-import {closePopup, openPopup} from './popup.js';
+import {openPopup} from './popup.js';
 
 const AVATAR_WIDTH = 35;
 const AVATAR_HEIGHT = 35;
@@ -6,11 +6,6 @@ const AVATAR_HEIGHT = 35;
 const createFullSizePicture = (photoDescription) => {
   const bigPictureContainer = document.querySelector('.big-picture');
   openPopup();
-
-  const closePopupButton = bigPictureContainer.querySelector('.big-picture__cancel');
-  closePopupButton.addEventListener('click', () => {
-    closePopup();
-  });
 
   //Убирает блоки счетчика комментариев и загрузки новых комментариев
   const socialCommentCount = bigPictureContainer.querySelector('.social__comment-count');
