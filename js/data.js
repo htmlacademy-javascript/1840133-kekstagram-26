@@ -39,7 +39,7 @@ const RangeLike = {
 
 const RangeComment = {
   MIN: 1,
-  MAX: 3,
+  MAX: 20,
 };
 
 const PHOTOS_COUNT = 25;
