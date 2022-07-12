@@ -43,51 +43,50 @@ const createFullSizePicture = (photoDescription) => {
   const socialCommentsList = bigPictureContainer.querySelector('.social__comments');
   socialCommentsList.innerHTML = '';
 
-  commentsToRender = Math.min(defaultCommentsCount, totalCommentsCount);
-  if(totalCommentsCount <= defaultCommentsCount) {
-    photoDescription.comments.slice(0, commentsToRender).forEach((comment) => {
+  const onLoadCommentsButtonClick = () => {
+    // Math.min выбирает наименьшее число между количеством комментов которое отрисовалось + количеством комментов,
+    // которое ТЗ разрешает отрисовать и общим количеством комментариев
+    commentsToRender = Math.min(renderedCommentsCount + defaultCommentsCount, totalCommentsCount);
+    photoDescription.comments.slice(renderedCommentsCount, commentsToRender).forEach((comment) => {
       const liElement = createComment(comment);
       socialCommentsList.append(liElement);
     });
+
+    renderedCommentsCount = commentsToRender; // следующий круг обновления отрисованных комментов
+
+    // при клике на - Загрузить ещё - в разметку выводится число - кол-во отрисованных комментов
+    renderedCommentsCountElement.textContent = renderedCommentsCount;
+
+    if(renderedCommentsCount >= totalCommentsCount) {
+      commentsLoaderButton.classList.add('hidden');
+    }
+  };
+
+  commentsToRender = Math.min(defaultCommentsCount, totalCommentsCount);
+
+  photoDescription.comments.slice(0, commentsToRender).forEach((comment) => {
+    const liElement = createComment(comment);
+    socialCommentsList.append(liElement);
+  });
+
+  if(totalCommentsCount <= defaultCommentsCount) {
+    commentsLoaderButton.removeEventListener('click', onLoadCommentsButtonClick);
 
     // выводим в разметку число - кол-во отрисованных комментов
     renderedCommentsCountElement.textContent = commentsToRender;
 
     commentsLoaderButton.classList.add('hidden');
   } else {
-    photoDescription.comments.slice(0, commentsToRender).forEach((comment) => {
-      const liElement = createComment(comment);
-      socialCommentsList.append(liElement);
-    });
-
     commentsLoaderButton.classList.remove('hidden');
 
-    // обновляем кол-во отрисованных комментов после того как forEach закончил свою работу
+    // обновляем кол-во отрисованных комментов
     renderedCommentsCount = commentsToRender;
 
     // при клике на - Загрузить ещё - в разметку выводится число - кол-во отрисованных комментов
     renderedCommentsCountElement.textContent = renderedCommentsCount;
 
-    commentsLoaderButton.addEventListener('click', () => {
-      // Math.min выбирает наименьшее число между количеством комментов которое отрисовалось + количеством комментов,
-      // которое ТЗ разрешает отрисовать и общим количеством комментариев
-      commentsToRender = Math.min(renderedCommentsCount + defaultCommentsCount, totalCommentsCount);
-      photoDescription.comments.slice(renderedCommentsCount, commentsToRender).forEach((comment) => {
-        const liElement = createComment(comment);
-        socialCommentsList.append(liElement);
-      });
-
-      renderedCommentsCount = commentsToRender; // следующий круг обновления отрисованных комментов после работы forEach
-
-      // при клике на - Загрузить ещё - в разметку выводится число - кол-во отрисованных комментов
-      renderedCommentsCountElement.textContent = renderedCommentsCount;
-
-      if(renderedCommentsCount === totalCommentsCount) {
-        commentsLoaderButton.classList.add('hidden');
-      }
-    });
+    commentsLoaderButton.addEventListener('click', onLoadCommentsButtonClick);
   }
-
   bigPictureContainer.querySelector('.social__caption').textContent = photoDescription.description;
 };
 
