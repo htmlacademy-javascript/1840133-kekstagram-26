@@ -14,5 +14,5 @@ const getRandomElement = (elements) => elements[getRandomInteger(0, elements.len
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomInteger, getRandomElement, isEscapeKey};
+export {getRandomInteger, getRandomElement, isEscapeKey, checkStringLength};
 
