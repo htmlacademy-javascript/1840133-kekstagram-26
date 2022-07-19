@@ -1,7 +1,18 @@
-import {openPopup} from './popup.js';
+import { openPopup } from './popup.js';
 
 const AVATAR_WIDTH = 35;
 const AVATAR_HEIGHT = 35;
+
+const defaultCommentsCount = 5;  //дефолтное количество комментов
+
+const bigPictureContainer = document.querySelector('.big-picture');
+const socialCommentsList = bigPictureContainer.querySelector('.social__comments');
+const commentsLoaderButton = bigPictureContainer.querySelector('.comments-loader');
+const renderedCommentsCountElement = document.querySelector('.rendered-comments-count');
+
+let photoComments = [];
+let renderedCommentsCount = 0; // количество отрисованных комментов
+let commentsToRender = 0; // количество комментов к отрисовке по клику
 
 const createComment = (comment) => {
   const liElement = document.createElement('li');
@@ -23,46 +34,38 @@ const createComment = (comment) => {
   return liElement;
 };
 
+const onLoadCommentsButtonClick = () => {
+  // Math.min выбирает наименьшее число между количеством комментов которое отрисовалось + количеством комментов,
+  // которое ТЗ разрешает отрисовать и общим количеством комментариев
+  commentsToRender = Math.min(renderedCommentsCount + defaultCommentsCount, photoComments.length);
+  photoComments.slice(renderedCommentsCount, commentsToRender).forEach((comment) => {
+    const liElement = createComment(comment);
+    socialCommentsList.append(liElement);
+  });
+
+  renderedCommentsCount = commentsToRender; // следующий круг обновления отрисованных комментов
+
+  // при клике на - Загрузить ещё - в разметку выводится число - кол-во отрисованных комментов
+  renderedCommentsCountElement.textContent = renderedCommentsCount;
+
+  if(renderedCommentsCount >= photoComments.length) {
+    commentsLoaderButton.classList.add('hidden');
+  }
+};
+
 const createFullSizePicture = (photoDescription) => {
   const totalCommentsCount = photoDescription.comments.length; // общее количество комментов
-  const defaultCommentsCount = 5;  //дефолтное количество комментов
-  let renderedCommentsCount = 0; // количество отрисованных комментов
-  let commentsToRender = 0; // количество комментов к отрисовке по клику
-
-  const bigPictureContainer = document.querySelector('.big-picture');
+  photoComments = photoDescription.comments;
   openPopup();
 
-  const commentsLoaderButton = bigPictureContainer.querySelector('.comments-loader');
-
-  const renderedCommentsCountElement = document.querySelector('.rendered-comments-count');
 
   bigPictureContainer.querySelector('.big-picture__img img').src = photoDescription.url;
   bigPictureContainer.querySelector('.likes-count').textContent = photoDescription.likes;
   bigPictureContainer.querySelector('.comments-count').textContent = totalCommentsCount;
 
-  const socialCommentsList = bigPictureContainer.querySelector('.social__comments');
   socialCommentsList.innerHTML = '';
 
-  const onLoadCommentsButtonClick = () => {
-    // Math.min выбирает наименьшее число между количеством комментов которое отрисовалось + количеством комментов,
-    // которое ТЗ разрешает отрисовать и общим количеством комментариев
-    commentsToRender = Math.min(renderedCommentsCount + defaultCommentsCount, totalCommentsCount);
-    photoDescription.comments.slice(renderedCommentsCount, commentsToRender).forEach((comment) => {
-      const liElement = createComment(comment);
-      socialCommentsList.append(liElement);
-    });
-
-    renderedCommentsCount = commentsToRender; // следующий круг обновления отрисованных комментов
-
-    // при клике на - Загрузить ещё - в разметку выводится число - кол-во отрисованных комментов
-    renderedCommentsCountElement.textContent = renderedCommentsCount;
-
-    if(renderedCommentsCount >= totalCommentsCount) {
-      commentsLoaderButton.classList.add('hidden');
-    }
-  };
-
-  commentsToRender = Math.min(defaultCommentsCount, totalCommentsCount);
+  commentsToRender = Math.min(defaultCommentsCount, photoComments.length);
 
   photoDescription.comments.slice(0, commentsToRender).forEach((comment) => {
     const liElement = createComment(comment);
@@ -90,5 +93,4 @@ const createFullSizePicture = (photoDescription) => {
   bigPictureContainer.querySelector('.social__caption').textContent = photoDescription.description;
 };
 
-export {createFullSizePicture};
-
+export {createFullSizePicture, onLoadCommentsButtonClick};
