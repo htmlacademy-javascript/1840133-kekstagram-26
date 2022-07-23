@@ -1,4 +1,6 @@
-import { checkStringLength, isEscapeKey } from './utils.js';
+import { checkStringLength, isEscapeKey, showAlert } from './utils.js';
+import { sendData } from './api.js';
+import { showMessageUser } from './message-user.js';
 
 const body = document.querySelector('body');
 const uploadFileForm = document.querySelector('.img-upload__form');
@@ -7,18 +9,28 @@ const imageEditingForm = uploadFileForm.querySelector('.img-upload__overlay');
 const closeImageEditingForm = uploadFileForm.querySelector('#upload-cancel');
 const textHashtags = uploadFileForm.querySelector('.text__hashtags');
 const textDescription = uploadFileForm.querySelector('.text__description');
+const scaleValueElement = uploadFileForm.querySelector('.scale__control--value');
+const uploadImgPreviewElement = uploadFileForm.querySelector('.img-upload__preview img');
+const sliderElement = uploadFileForm.querySelector('.effect-level__slider');
+const formSubmitButton = uploadFileForm.querySelector('.img-upload__submit');
+
 
 const HASHTAGS_COUNT = 5;
 const DESCRIPTION_LENGTH = 140;
+const SCALE__DEFAULT = 100;
 
 const re = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
-
 
 const closeUploadForm = () => {
   imageEditingForm.classList.add('hidden');
   body.classList.remove('madal-open');
   document.addEventListener('keydown', onUploadFormEscKeydown);
   uploadImage.value = '';
+  uploadFileForm.reset();
+  uploadImgPreviewElement.setAttribute('style', '');
+  uploadImgPreviewElement.classList.remove('effects__preview--undefined');
+  sliderElement.classList.add('hidden');
+  scaleValueElement.value = `${SCALE__DEFAULT}%`;
 };
 
 function onUploadFormEscKeydown(evt) {
@@ -111,12 +123,47 @@ pristine.addValidator(
   'Хэш-тег должен начинаться с символа #, содержать только буквы и числа. Хэш-тег не может состоять только из одного символа #. Максимальная длина одного хэш-тега 20 символов.'
 );
 
-uploadFileForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = pristine.validate();
-  if(isValid) {
-    uploadFileForm.submit();
-  }
-});
+const blockSubmitButton = () => {
+  formSubmitButton.disabled = true;
+  formSubmitButton.textContent = 'Публикую...';
+};
 
-export { uploadForm };
+const unblockSubmitButton = () => {
+  formSubmitButton.disabled = false;
+  formSubmitButton.textContent = 'Опубликовать';
+};
+
+const onSuccess = () => {
+  closeUploadForm();
+  unblockSubmitButton();
+  showMessageUser('success');
+};
+
+const onError = () => {
+  showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+  unblockSubmitButton();
+  showMessageUser('error');
+};
+
+const setFileFormSubmit = () => {
+  uploadFileForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+        },
+        () => {
+          onError();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+
+export { uploadForm, setFileFormSubmit };
