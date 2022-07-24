@@ -16,25 +16,6 @@ const getData = (onSuccess, onError) => {
       onError('Ошибка загрузки данных. Обновите страницу');
     });
 };
-/*
-const sendData = (onSuccess, onError, body) => {
-  fetch(API_URL, {
-    method:'POST',
-    body,
-  })
-    .then((response) => {
-      if (response.ok) {
-        onSuccess();
-        return;
-      }
-
-      throw new Error(`${response.status} ${response.statusText}`);
-    })
-    .catch(() => {
-      onError();
-    });
-};
-*/
 
 const sendData = (onSuccess, onError, body) => {
   fetch(API_URL, {
@@ -49,7 +30,7 @@ const sendData = (onSuccess, onError, body) => {
       }
     })
     .catch(() => {
-      onError();
+      onError('Не удалось отправить форму. Попробуйте ещё раз');
     });
 };
 

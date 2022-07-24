@@ -10,7 +10,7 @@ const errorTemplate = document.querySelector('#error')
 
 const showMessageUser = (type) => {
   const typeMessage = {
-    'succes': successTemplate,
+    'success': successTemplate,
     'error': errorTemplate,
   };
 
