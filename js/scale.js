@@ -12,7 +12,7 @@ const Scale = {
 
 const radix = 10;
 
-const onScaleClick = () => {
+const changeScale = () => {
   scaleValueElement.value = `${Scale.DEFAULT}%`;
   minusButton.addEventListener('click', () => {
     let currentValue = parseInt(scaleValueElement.value, radix); // приведение строки к числу
@@ -33,4 +33,4 @@ const onScaleClick = () => {
   });
 };
 
-export { onScaleClick };
+export { changeScale };

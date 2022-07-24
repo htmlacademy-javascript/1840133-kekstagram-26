@@ -1,12 +1,16 @@
-import {PHOTOS_COUNT, generatePhotos} from './data.js';
 import {createUsersPhotos} from './miniatures.js';
-import {uploadForm} from './form-uploading.js';
-import { onScaleClick } from './scale.js';
+import {uploadForm, setFileFormSubmit} from './form-uploading.js';
+import { changeScale } from './scale.js';
 import { resetEffects } from './effect.js';
+import { getData } from './api.js';
 
-const descriptionPictures = generatePhotos(PHOTOS_COUNT);
 
-createUsersPhotos(descriptionPictures);
 uploadForm();
-onScaleClick();
+changeScale();
 resetEffects();
+
+getData((descriptionPictures) => {
+  createUsersPhotos(descriptionPictures);
+});
+
+setFileFormSubmit();
