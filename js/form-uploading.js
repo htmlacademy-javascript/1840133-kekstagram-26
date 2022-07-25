@@ -17,20 +17,20 @@ const formSubmitButton = uploadFileForm.querySelector('.img-upload__submit');
 
 const HASHTAGS_COUNT = 5;
 const DESCRIPTION_LENGTH = 140;
-const SCALE__DEFAULT = 100;
+const SCALE_DEFAULT = 100;
 
 const re = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 
 const closeUploadForm = () => {
   imageEditingForm.classList.add('hidden');
-  body.classList.remove('madal-open');
+  body.classList.remove('modal-open');
   document.addEventListener('keydown', onUploadFormEscKeydown);
   uploadImage.value = '';
   uploadFileForm.reset();
   uploadImgPreviewElement.setAttribute('style', '');
   uploadImgPreviewElement.classList.remove('effects__preview--undefined');
   sliderElement.classList.add('hidden');
-  scaleValueElement.value = `${SCALE__DEFAULT}%`;
+  scaleValueElement.value = `${SCALE_DEFAULT}%`;
 };
 
 function onUploadFormEscKeydown(evt) {
