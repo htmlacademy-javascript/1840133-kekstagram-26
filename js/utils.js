@@ -1,4 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
+const TIMEOUT = 500;
 
 const getRandomInteger = (min, max) => {
   if (min > max) {
@@ -7,10 +8,8 @@ const getRandomInteger = (min, max) => {
   const rand = min + Math.random() * (max + 1 - min);
   return Math.floor(rand);
 };
-getRandomInteger(0, 6);
 
 const checkStringLength = (testLine, maxLength) => testLine.length <= maxLength;
-checkStringLength('Вау, классная фотка! Это где?', 100);
 
 const getRandomElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
@@ -37,4 +36,12 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {getRandomInteger, getRandomElement, isEscapeKey, checkStringLength, showAlert};
+const debounce = (callback, timeoutDelay = TIMEOUT) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomInteger, getRandomElement, isEscapeKey, checkStringLength, showAlert, debounce};
