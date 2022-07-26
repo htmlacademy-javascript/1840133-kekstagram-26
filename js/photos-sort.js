@@ -26,31 +26,23 @@ const renderWithDelay = debounce(createUsersPhotos);
 const showFilters = (descriptionPictures) => {
   imgFiltersElement.classList.remove('img-filters--inactive');
 
-  buttonDefaultElement.addEventListener('click', () => {
-    currentActiveButton.classList.remove('img-filters__button--active');
-    buttonDefaultElement.classList.add('img-filters__button--active');
-    currentActiveButton = buttonDefaultElement;
-    removeAllPhotos();
-    renderWithDelay(descriptionPictures);
-  });
+  const addFilter = (filterButton, sortFn) => {
 
-  buttonRandomElement.addEventListener('click', () => {
-    currentActiveButton.classList.remove('img-filters__button--active');
-    buttonRandomElement.classList.add('img-filters__button--active');
-    currentActiveButton = buttonRandomElement;
-    removeAllPhotos();
-    const randomPhotos = descriptionPictures.slice().sort(getRandomPhotos).slice(0, RANDOM_PHOTOS_COUNT);
-    renderWithDelay(randomPhotos);
-  });
+    filterButton.addEventListener('click', () => {
+      currentActiveButton.classList.remove('img-filters__button--active');
+      filterButton.classList.add('img-filters__button--active');
+      currentActiveButton = filterButton;
+      removeAllPhotos();
+      const filteredPhotos = sortFn();
+      renderWithDelay(filteredPhotos);
+    });
+  };
 
-  buttonDiscussedElement.addEventListener('click', () => {
-    currentActiveButton.classList.remove('img-filters__button--active');
-    buttonDiscussedElement.classList.add('img-filters__button--active');
-    currentActiveButton = buttonDiscussedElement;
-    removeAllPhotos();
-    const discussedPhotos = descriptionPictures.slice().sort(getDiscussedPhotos);
-    renderWithDelay(discussedPhotos);
-  });
+  addFilter(buttonDefaultElement, () => descriptionPictures);
+  addFilter(buttonRandomElement, () => descriptionPictures.slice().sort(getRandomPhotos).slice(0, RANDOM_PHOTOS_COUNT));
+
+  addFilter(buttonDefaultElement, () => descriptionPictures);
+  addFilter(buttonDiscussedElement, () => descriptionPictures.slice().sort(getDiscussedPhotos));
 };
 
 export { showFilters };

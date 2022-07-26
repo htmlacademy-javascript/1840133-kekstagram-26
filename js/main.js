@@ -4,6 +4,7 @@ import { changeScale } from './scale.js';
 import { resetEffects } from './effect.js';
 import { getData } from './api.js';
 import { showFilters } from './photos-sort.js';
+import './photos-uploading.js';
 
 
 uploadForm();
