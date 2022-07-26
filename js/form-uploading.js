@@ -88,7 +88,7 @@ const checkUniquenessHashtags = () => {
 };
 
 //Предупреждает о более пяти хэш-тегов
-const checkHastagsCount = () => checkHashtags().length < HASHTAGS_COUNT;
+const checkHastagsCount = () => checkHashtags().length <= HASHTAGS_COUNT;
 
 const pristine = new Pristine(uploadFileForm, {
   classTo: 'img-upload__field-wrapper',

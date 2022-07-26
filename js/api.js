@@ -1,6 +1,8 @@
+import { showAlert } from './utils.js';
+
 const API_URL = 'https://26.javascript.pages.academy/kekstagram';
 
-const getData = (onSuccess, onError) => {
+const getData = (onSuccess) => {
   fetch(`${API_URL}/data`)
     .then((response) => {
       if (response.ok) {
@@ -13,7 +15,7 @@ const getData = (onSuccess, onError) => {
       onSuccess(descriptionPictures);
     })
     .catch(() => {
-      onError('Ошибка загрузки данных. Обновите страницу');
+      showAlert('Ошибка загрузки данных. Обновите страницу');
     });
 };
 
