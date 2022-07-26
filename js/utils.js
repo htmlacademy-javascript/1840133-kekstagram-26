@@ -11,8 +11,6 @@ const getRandomInteger = (min, max) => {
 
 const checkStringLength = (testLine, maxLength) => testLine.length <= maxLength;
 
-const getRandomElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showAlert = (message) => {
@@ -44,4 +42,4 @@ const debounce = (callback, timeoutDelay = TIMEOUT) => {
   };
 };
 
-export {getRandomInteger, getRandomElement, isEscapeKey, checkStringLength, showAlert, debounce};
+export {getRandomInteger, isEscapeKey, checkStringLength, showAlert, debounce};

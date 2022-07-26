@@ -41,7 +41,6 @@ const showFilters = (descriptionPictures) => {
   addFilter(buttonDefaultElement, () => descriptionPictures);
   addFilter(buttonRandomElement, () => descriptionPictures.slice().sort(getRandomPhotos).slice(0, RANDOM_PHOTOS_COUNT));
 
-  addFilter(buttonDefaultElement, () => descriptionPictures);
   addFilter(buttonDiscussedElement, () => descriptionPictures.slice().sort(getDiscussedPhotos));
 };
 
