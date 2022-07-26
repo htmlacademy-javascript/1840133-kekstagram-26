@@ -26,7 +26,7 @@ const renderWithDelay = debounce(createUsersPhotos);
 const showFilters = (descriptionPictures) => {
   imgFiltersElement.classList.remove('img-filters--inactive');
 
-  const addFillter = (filterButton, sortFn) => {
+  const addFilter = (filterButton, sortFn) => {
 
     filterButton.addEventListener('click', () => {
       currentActiveButton.classList.remove('img-filters__button--active');
@@ -38,11 +38,11 @@ const showFilters = (descriptionPictures) => {
     });
   };
 
-  addFillter(buttonDefaultElement, () => descriptionPictures);
-  addFillter(buttonRandomElement, () => descriptionPictures.slice().sort(getRandomPhotos).slice(0, RANDOM_PHOTOS_COUNT));
+  addFilter(buttonDefaultElement, () => descriptionPictures);
+  addFilter(buttonRandomElement, () => descriptionPictures.slice().sort(getRandomPhotos).slice(0, RANDOM_PHOTOS_COUNT));
 
-  addFillter(buttonDefaultElement, () => descriptionPictures);
-  addFillter(buttonDiscussedElement, () => descriptionPictures.slice().sort(getDiscussedPhotos));
+  addFilter(buttonDefaultElement, () => descriptionPictures);
+  addFilter(buttonDiscussedElement, () => descriptionPictures.slice().sort(getDiscussedPhotos));
 };
 
 export { showFilters };
