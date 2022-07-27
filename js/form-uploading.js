@@ -13,7 +13,7 @@ const scaleValueElement = uploadFileForm.querySelector('.scale__control--value')
 const uploadImgPreviewElement = uploadFileForm.querySelector('.img-upload__preview img');
 const sliderElement = uploadFileForm.querySelector('.effect-level__slider');
 const formSubmitButton = uploadFileForm.querySelector('.img-upload__submit');
-
+const sliderContainer = document.querySelector('.img-upload__effect-level');
 
 const HASHTAGS_COUNT = 5;
 const DESCRIPTION_LENGTH = 140;
@@ -31,6 +31,7 @@ const closeUploadForm = () => {
   uploadImgPreviewElement.classList.remove('effects__preview--undefined');
   sliderElement.classList.add('hidden');
   scaleValueElement.value = `${SCALE_DEFAULT}%`;
+  sliderContainer.classList.add('hidden');
 };
 
 function onUploadFormEscKeydown(evt) {

@@ -2,6 +2,7 @@ const uploadImgPreviewElement = document.querySelector('.img-upload__preview img
 const uploadFileForm = document.querySelector('.img-upload__form');
 const effectLevelElement = document.querySelector('.effect-level__value');
 const sliderElement = document.querySelector('.effect-level__slider');
+const sliderContainer = document.querySelector('.img-upload__effect-level');
 
 const EFFECTS = {
   none: {
@@ -66,8 +67,10 @@ const updateSlider = () => {
 
   uploadImgPreviewElement.className = '';
   sliderElement.classList.remove('hidden');
+  sliderContainer.classList.remove('hidden');
   if (isDefault()) {
     sliderElement.classList.add('hidden');
+    sliderContainer.classList.add('hidden');
     return;
   }
   uploadImgPreviewElement.classList.add(`effects__preview--${selectedEffect.name}`);
