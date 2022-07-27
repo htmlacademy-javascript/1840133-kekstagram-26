@@ -28,11 +28,11 @@ const sendData = (onSuccess, onError, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onError('Не удалось отправить форму. Попробуйте ещё раз');
+        onError();
       }
     })
     .catch(() => {
-      onError('Не удалось отправить форму. Попробуйте ещё раз');
+      onError();
     });
 };
 
